@@ -8,9 +8,21 @@ https://docs.djangoproject.com/en/3.2/howto/deployment/asgi/
 """
 
 import os
-
+from channels.routing import ProtocolTypeRouter , URLRouter
 from django.core.asgi import get_asgi_application
+from channels.security.websocket import AllowedHostsOriginValidator
+from django.urls import path
+
+from video.consumers import VideoChat
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'main.settings')
 
-application = get_asgi_application()
+application = ProtocolTypeRouter({
+    'websocket':AllowedHostsOriginValidator(
+        URLRouter([
+            path('ws/',VideoChat.as_asgi())
+        ])
+    )
+})
+
+
