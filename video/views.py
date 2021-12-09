@@ -6,5 +6,5 @@ def index(request):
     return render(request, "index.html")
 
 
-def video(request,room,created):
-    return render(request, "video.html")
+def video(request, room, created):
+    return render(request, "video.html", {'created': created, 'room': room})
